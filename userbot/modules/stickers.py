@@ -240,8 +240,8 @@ async def curry(args):
                 # Ensure user doesn't get spamming notifications
                 await bot.send_read_acknowledge(conv.chat_id)
 
-        await args.edit(f"`Berhasil curry!`\
-            \n[Click sini](t.me/addstickers/{packname}) buat liat colongan",
+        await args.edit(f"`Pencurryan berhasil!`\
+            \n[Klik sini](t.me/addstickers/{packname}) buat liat colongan",
                         parse_mode='md')
 
 
