@@ -21,23 +21,23 @@ from telethon.tl.types import DocumentAttributeSticker
 KANGING_STR = [
     "Eh... Koq bagus... aku kang ahhh :3",
     "Aku kang y kakak :)",
-    "Using Witchery to kang this sticker...",
-    "Plagiarising hehe...",
-    "Inviting this sticker over to my pack...",
-    "Great\nKanging this sticker hahahahaha...",
-    "Hey that's a nice sticker!\nMind if I kang?!..",
-    "hehe me stel ur stikér\nhehe.",
-    "Ay look over there (☉｡☉)!→\nWhile I kang this...",
-    "Roses are red\nviolets are blue\nkanging this sticker\nso my pack looks cool",
-    "Imprisoning this sticker...\nit'll look good in my pack",
-    "I'm is stealing this sticker...\nhehehehehe... ",
-	"May i kang this?\nI'll do it anyway even you says no!",
-	"Seems gud if i kang this...",
+    "Curry ahh...",
+    "Punten, nyolong stiker gayn...",
+    "Ni stiker milik kita bersama...",
+    "Great\nKanging ni stiker wkwkwkwk...",
+    "Oi stiker nya gud!\nGw curry ye?!..",
+    "hehe colong stikér\nhehe.",
+    "Apaan tuh (☉｡☉)!→\nCurry lel...",
+    "Merah itu berani\nputih itu suci\nstikernya bagus sekali\nmangkanya aku curry",
+    "Iye gw nyolong...\nIri bilang boss",
+    "Nyolong dulu slurr...\nhehehehehe... ",
+	"Gw curry yak?\nBodo amat gw curry!",
+	"Bagus ni klo gw curry...",
 ]
 
 
-@register(outgoing=True, pattern="^.kang")
-async def kang(args):
+@register(outgoing=True, pattern="^.curry")
+async def curry(args):
     """ For .kang command, kangs stickers or creates new ones. """
     user = await bot.get_me()
     if not user.username:
@@ -315,11 +315,11 @@ async def get_pack_info(event):
 
 CMD_HELP.update({
     "stickers":
-    ".kang\
-\nUsage: Reply .kang to a sticker or an image to kang it to your userbot pack.\
-\n\n.kang [emoji('s)]\
-\nUsage: Works just like .kang but uses the emoji('s) you picked.\
-\n\n.kang [number]\
+    ".curry\
+\nUsage: Reply .curry to a sticker or an image to kang it to your userbot pack.\
+\n\n.curry [emoji('s)]\
+\nUsage: Works just like .curry but uses the emoji('s) you picked.\
+\n\n.curry [number]\
 \nUsage: Kang's the sticker/image to the specified pack but uses 🤔 as emoji.\
 \n\n.kang [emoji('s)] [number]\
 \nUsage: Kang's the sticker/image to the specified pack and uses the emoji('s) you picked.\
