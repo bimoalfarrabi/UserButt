@@ -1,21 +1,19 @@
 # Copyright (C) 2019 The Raphielscape Company LLC.
 #
-# Licensed under the Raphielscape Public License, Version 1.c (the "License");
+# Licensed under the Raphielscape Public License, Version 1.d (the "License");
 # you may not use this file except in compliance with the License.
 #
 # You can find misc modules, which dont fit in anything xD
 """ Userbot module for other small commands. """
 
 from random import randint
-from asyncio import sleep
+from time import sleep
 from os import execl
 import sys
-import os
 import io
-import sys
-import json
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, bot
 from userbot.events import register
+from userbot.utils import time_formatter
 
 
 @register(outgoing=True, pattern="^.random")
@@ -32,23 +30,19 @@ async def randomise(items):
                      itemo[index] + "`")
 
 
-@register(outgoing=True, pattern="^.sleep( [0-9]+)?$")
+@register(outgoing=True, pattern="^.sleep ([0-9]+)$")
 async def sleepybot(time):
     """ For .sleep command, let the userbot snooze for a few second. """
-    message = time.text
-    if " " not in time.pattern_match.group(1):
-        await time.reply("Syntax: `.sleep [seconds]`")
-    else:
-        counter = int(time.pattern_match.group(1))
-        await time.edit("`I am sulking and snoozing....`")
-        await sleep(2)
-        if BOTLOG:
-            await time.client.send_message(
-                BOTLOG_CHATID,
-                "You put the bot to sleep for " + str(counter) + " seconds",
-            )
-        await sleep(counter)
-        await time.edit("`OK, I'm awake now.`")
+    counter = int(time.pattern_match.group(1))
+    await time.edit("`I am sulking and snoozing...`")
+    if BOTLOG:
+        str_counter = time_formatter(counter)
+        await time.client.send_message(
+            BOTLOG_CHATID,
+            f"You put the bot to sleep for {str_counter}.",
+        )
+    sleep(counter)
+    await time.edit("`OK, I'm awake now.`")
 
 
 @register(outgoing=True, pattern="^.shutdown$")
@@ -131,7 +125,7 @@ async def repeat(rep):
 async def repo_is_here(wannasee):
     """ For .repo command, just returns the repo URL. """
     await wannasee.edit(
-        "[Click here](https://github.com/keselekpermen69/userbutt) to open UserButt's repo."
+        "[Click here](https://github.com/keselekpermen69/userbutt) to see UserButt's repo.\nor [Click Here](https://github.com/biansepang/userbutt) to see My Forked Repo"
     )
 
 
@@ -161,52 +155,52 @@ async def raw(event):
 
 CMD_HELP.update({
     'random':
-    '.random <item1> <item2> ... <itemN>\
+    '`.random` <item1> <item2> ... <itemN>\
 \nUsage: Get a random item from the list of items.'
 })
 
 CMD_HELP.update({
     'sleep':
-    '.sleep <seconds>\
+    '`.sleep` <seconds>\
 \nUsage: Userbots get tired too. Let yours snooze for a few seconds.'
 })
 
 CMD_HELP.update({
     "shutdown":
-    ".shutdown\
+    "`.shutdown`\
 \nUsage: Sometimes you need to shut down your bot. Sometimes you just hope to\
 hear Windows XP shutdown sound... but you don't."
 })
 
 CMD_HELP.update(
-    {'support': ".support\
+    {'support': "`.support`\
 \nUsage: If you need help, use this command."})
 
 CMD_HELP.update({
     'community':
-    ".community\
+    "`.community`\
 \nUsage: Join the awesome Paperplane userbot community !!"
 })
 
 CMD_HELP.update({
     'repo':
-    '.repo\
+    '`.repo`\
 \nUsage: If you are curious what makes the userbot work, this is what you need.'
 })
 
 CMD_HELP.update({
     "readme":
-    ".readme\
+    "`.readme`\
 \nUsage: Provide links to setup the userbot and it's modules."
 })
 
 CMD_HELP.update(
-    {"creator": ".creator\
+    {"creator": "`.creator`\
 \nUsage: Know who created this awesome userbot !!"})
 
 CMD_HELP.update({
     "repeat":
-    ".repeat <no.> <text>\
+    "`.repeat` <no.> <text>\
 \nUsage: Repeats the text for a number of times. Don't confuse this with spam tho."
 })
 
@@ -215,6 +209,6 @@ CMD_HELP.update({"restart": ".restart\
 
 CMD_HELP.update({
     "raw":
-    ".raw\
+    "`.raw`\
 \nUsage: Get detailed JSON-like formatted data about replied message."
 })
