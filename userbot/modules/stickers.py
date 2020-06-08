@@ -1,6 +1,6 @@
 # Copyright (C) 2019 The Raphielscape Company LLC.
 #
-# Licensed under the Raphielscape Public License, Version 1.c (the "License");
+# Licensed under the Raphielscape Public License, Version 1.d (the "License");
 # you may not use this file except in compliance with the License.
 #
 """ Userbot module for kanging stickers or making new ones. Thanks @rupansh"""
@@ -19,25 +19,25 @@ from telethon.tl.types import InputStickerSetID
 from telethon.tl.types import DocumentAttributeSticker
 
 KANGING_STR = [
-    "Eh... Koq bagus... aku kang ahhh :3",
-    "Aku kang y kakak :)",
-    "Curry ahh...",
-    "Punten, nyolong stiker gayn...",
-    "Ni stiker milik kita bersama...",
-    "Great\nKanging ni stiker wkwkwkwk...",
-    "Oi stiker nya gud!\nGw curry ye?!..",
-    "hehe colong stikér\nhehe.",
-    "Apaan tuh (☉｡☉)!→\nCurry lel...",
-    "Merah itu berani\nputih itu suci\nstikernya bagus sekali\nmangkanya aku curry",
-    "Iye gw nyolong...\nIri bilang boss",
-    "Nyolong dulu slurr...\nhehehehehe... ",
-	"Gw curry yak?\nBodo amat gw curry!",
-	"Bagus ni klo gw curry...",
+    "Eh... Koq bagus... aku curry ahhh :3",
+    "Aku curry ya kakak :)",
+    "Curry Sticker dulu yee kan",
+    "ehh, mantep nih.....aku ambil ya qaqa",
+    "Bagus eaaaa....\nAmbil ahh....",
+    "Ini Sticker aku ambil yaa\nDUARR!",
+    "leh ugha ni Sticker\nCurry ahh~",
+    "Pim Pim Pom!!!\nni Sticker punya aing sekarang hehe",
+    "Bentar boss, ane curry dulu",
+    "Ihh, bagus nih\nCurry ahh~",
+    "Curry lagi yee kan.....",
+    "CURRY TROSS!!!",
+	"Bolehkah saya curry ni sticker\nau ah curry aja hehe",
+	"Curry Sticker ahh.....",
 ]
 
 
 @register(outgoing=True, pattern="^.curry")
-async def curry(args):
+async def kang(args):
     """ For .kang command, kangs stickers or creates new ones. """
     user = await bot.get_me()
     if not user.username:
@@ -60,7 +60,8 @@ async def curry(args):
             if (DocumentAttributeFilename(file_name='sticker.webp') in
                     message.media.document.attributes):
                 emoji = message.media.document.attributes[1].alt
-                emojibypass = True
+                if emoji != '':
+                    emojibypass = True
         elif "tgsticker" in message.media.document.mime_type:
             await args.edit(f"`{random.choice(KANGING_STR)}`")
             await bot.download_file(message.media.document,
@@ -240,8 +241,8 @@ async def curry(args):
                 # Ensure user doesn't get spamming notifications
                 await bot.send_read_acknowledge(conv.chat_id)
 
-        await args.edit(f"`Pencurryan berhasil!`\
-            \n[Klik sini](t.me/addstickers/{packname}) buat liat colongan",
+        await args.edit(f"`Asyique Sukses!`\
+            \n[Klik Disini](t.me/addstickers/{packname}) kalo mau liat hasil curryan",
                         parse_mode='md')
 
 
@@ -311,18 +312,48 @@ async def get_pack_info(event):
         f"**Emojis In Pack:**\n{' '.join(pack_emojis)}"
 
     await event.edit(OUTPUT)
+    
+    
+@register(outgoing=True, pattern="^.getsticker$")
+async def sticker_to_png(sticker):
+    if not sticker.is_reply:
+        await sticker.edit("`NULL information to fetch...`")
+        return False
+
+    img = await sticker.get_reply_message()
+    if not img.document:
+        await sticker.edit("`Reply to a sticker...`")
+        return False
+
+    try:
+        img.document.attributes[1]
+    except Exception:
+        await sticker.edit("`This is not a sticker...`")
+        return
+
+    with io.BytesIO() as image:
+        await sticker.client.download_media(img, image)
+        image.name = 'sticker.png'
+        image.seek(0)
+        try:
+            await img.reply(file=image, force_document=True)
+        except Exception:
+            await sticker.edit("`Err, can't send file...`")
+        else:
+            await sticker.delete()
+    return
 
 
 CMD_HELP.update({
     "stickers":
-    ".curry\
-\nUsage: Reply .curry to a sticker or an image to kang it to your userbot pack.\
-\n\n.curry [emoji('s)]\
-\nUsage: Works just like .curry but uses the emoji('s) you picked.\
-\n\n.curry [number]\
-\nUsage: Kang's the sticker/image to the specified pack but uses 🤔 as emoji.\
-\n\n.kang [emoji('s)] [number]\
-\nUsage: Kang's the sticker/image to the specified pack and uses the emoji('s) you picked.\
-\n\n.stkrinfo\
-\nUsage: Gets info about the sticker pack."
+    ">`.kang [emoji('s)]?`"
+    "\nUsage: Reply .kang to a sticker or an image to kang it to your userbot pack "
+    "\nor specify the emoji you want to."
+    "\n\n>`.kang (emoji['s]]?` [number]?"
+    "\nUsage: Kang's the sticker/image to the specified pack but uses 🤔 as emoji "
+    "or choose the emoji you want to."
+    "\n\n>`.stkrinfo`"
+    "\nUsage: Gets info about the sticker pack."
+    "\n\n>`.getsticker`"
+    "\nUsage: reply to a sticker to get 'PNG' file of sticker."
 })
